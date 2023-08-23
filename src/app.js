@@ -10,6 +10,10 @@ app.use('/api/cita', appCitas)
 app.use('/api/medico', appMedico)
 app.use('/api/usuario', appUsuario)
 
+app.use((req, res) => {
+  res.status(404).json({ message: '404 route not found' })
+})
+
 const port = process.env.PORT ?? 1234
 
 app.listen(port, () => {

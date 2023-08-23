@@ -361,18 +361,18 @@ db.cita.insertMany([{
   cit_codigo: 1,
   cit_fecha: new Date('2023-08-20T10:00:00Z'),
   cit_estadoCita: 1,
-  cit_medico: 1,
+  cit_medico: 12345,
   cit_datosUsuario: 1
 }, {
   cit_codigo: 2,
   cit_fecha: new Date('2023-08-20T10:00:00Z'),
   cit_estadoCita: 2,
-  cit_medico: 2,
+  cit_medico: 54321,
   cit_datosUsuario: 2
 }, {
   cit_codigo: 3,
   cit_fecha: new Date('2023-08-22T15:30:00Z'),
   cit_estadoCita: 3,
-  cit_medico: 1,
+  cit_medico: 12345,
   cit_datosUsuario: 2
 }])

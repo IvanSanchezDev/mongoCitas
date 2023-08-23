@@ -37,7 +37,7 @@ export class Citas {
     try {
       const nroMatricula = req.params.nroMatricula
       const fechaCita = req.query.fecha
-      const citas = await Cita.citasFechaMedicoEspecifico({ fecha: fechaCita, nroMatriculaProfesional: nroMatricula })
+      const citas = await Cita.citaFechaMedicoEspecifico({ fecha: fechaCita, nroMatriculaProfesional: nroMatricula })
       res.status(200).json(citas)
     } catch (error) {
       console.log('error en el controlador: ' + error.message)
