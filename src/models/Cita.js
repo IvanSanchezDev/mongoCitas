@@ -4,7 +4,7 @@ export class Cita {
   static async getCitas () {
     try {
       const db = await connect()
-      const citas = db.collection('citas')
+      const citas = db.collection('cita')
       const result = await citas.find().toArray()
       return result
     } catch (error) {
@@ -18,66 +18,61 @@ export class Cita {
   static async proximaCita ({ id }) {
     try {
       const db = await connect()
-      const citas = db.collection('citas')
+      const citas = db.collection('cita')
       const result = citas.find({
         cit_datosUsuario: id,
         cit_fecha: { $gt: new Date() }
-      }).sort({ cit_fecha: 1 }).limit(1)
+      }).sort({ cit_fecha: 1 }).limit(1).toArray()
 
       return result
     } catch (error) {
-      console.error('Error al traer las citas')
+      console.error('Error al traer las cita')
       console.error(error.message)
-    } finally {
-      await closeConnection()
     }
   }
 
   static async citaFechaEspecifico ({ fecha }) {
     try {
       const db = await connect()
-      const citas = db.collection('citas')
-      const result = citas.find({
-        cit_fecha: fecha
-      })
+      const citas = db.collection('cita')
+      const result = await citas.find({
+        cit_fecha: new Date(fecha)
+      }).toArray()
       return result
     } catch (error) {
       console.error('Error al traer las citas en la fecha especificada')
       console.error(error.message)
-    } finally {
-      await closeConnection()
     }
   }
 
   static async citaFechaMedicoEspecifico ({ fecha, nroMatriculaProfesional }) {
     try {
       const db = await connect()
-      const citas = db.collection('citas')
+      const citas = db.collection('cita')
       const result = citas.aggregate([
         {
           $match: {
-            cit_fecha: fecha,
-            cit_medico: nroMatriculaProfesional
+            cit_fecha: new Date(fecha),
+            cit_medico: parseInt(nroMatriculaProfesional)
           }
         },
         {
           $count: 'cantidad'
         }
-      ])
+      ]).toArray()
 
       return result
     } catch (error) {
       console.error('Error al traer las citas en la fecha especificada y con el medico especifico')
       console.error(error.message)
-    } finally {
-      await closeConnection()
     }
   }
 
   static async citaGenero ({ genero }) {
+    console.log(genero)
     try {
       const db = await connect()
-      const citas = db.collection('citas')
+      const citas = db.collection('cita')
       const result = citas.aggregate([
         {
           $lookup: {
@@ -116,15 +111,13 @@ export class Cita {
     } catch (error) {
       console.error('Error al terrorraer las citas de un genero en especifico')
       console.error(error.message)
-    } finally {
-      await closeConnection()
     }
   }
 
   static async citasRechazadas () {
     try {
       const db = await connect()
-      const citas = db.collection('citas')
+      const citas = db.collection('cita')
       const result = await citas.aggregate([
         {
           $lookup: {
@@ -152,7 +145,7 @@ export class Cita {
         },
         {
           $match: {
-            'estadoCita.estcita_nombre': 'RECHAZADA'
+            'estadoCita.estcita_nombre': 'Rechazada'
           }
         },
         {
