@@ -55,13 +55,13 @@ export class Cita {
         {
           $match: {
             cit_fecha: new Date(fecha),
-            cit_medico: nroMatriculaProfesional
+            cit_medico: parseInt(nroMatriculaProfesional)
           }
         },
         {
           $count: 'cantidad'
         }
-      ])
+      ]).toArray()
 
       return result
     } catch (error) {
