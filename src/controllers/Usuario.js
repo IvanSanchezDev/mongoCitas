@@ -13,7 +13,7 @@ export class Usuarios {
 
   static async usuarioMedicoEspecifico (req, res) {
     try {
-      const nroMatricula = req.params.nroMatricula
+      const nroMatricula = req.params.nroMatriculaMedico
       const usuario = await Usuario.usuarioMedicoEspecifico({ nroMatricula })
       res.status(200).json(usuario)
     } catch (error) {

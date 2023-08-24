@@ -8,10 +8,8 @@ export class Usuario {
       const result = usuario.find().sort({ usu_nombre: 1 }).toArray()
       return result
     } catch (error) {
-      console.error('Error al traer los usuarios:')
       console.error(error.message)
-    } finally {
-      await closeConnection()
+      throw Error('Error al traer los usuarios:')
     }
   }
 
@@ -41,7 +39,7 @@ export class Usuario {
         },
         {
           $match: {
-            'medico.med_nroMatriculaProfesional': nroMatricula
+            'medico.med_nroMatriculaProfesional': parseInt(nroMatricula)
           }
         },
         {
@@ -52,8 +50,8 @@ export class Usuario {
       ]).toArray()
       return result
     } catch (error) {
-      console.error('Error al encontrar todos los pacientes que tienen citas con un médico específico')
       console.error(error.message)
+      throw Error('Error al encontrar todos los pacientes que tienen citas con un médico específico')
     } finally {
       await closeConnection()
     }
