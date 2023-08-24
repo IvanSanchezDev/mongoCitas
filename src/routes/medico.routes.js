@@ -3,5 +3,5 @@ import { Router } from 'express'
 
 export const appMedico = Router()
 
-appMedico.get('/getMedicos', Medicos.getMedicoEspecializado)
+appMedico.get('/getMedicos/:especialidad', Medicos.getMedicoEspecializado)
 appMedico.get('/medicosAndConsultorios', Medicos.medicosAndConsultorios)

@@ -14,7 +14,7 @@ export class Medicos {
 
   static async medicosAndConsultorios (req, res) {
     try {
-      const medicosConsultorios = await Medico.getMedicoConsultorios()
+      const medicosConsultorios = await Medico.medicosAndConsultorios()
       res.status(200).json(medicosConsultorios)
     } catch (error) {
       console.log('error en el controlador:' + error.message)
