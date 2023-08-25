@@ -260,6 +260,129 @@ db.createCollection('cita', {
 })
 
 use('db_citas_campus')
+db.createCollection('personal', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['cc', 'nombre', 'rol'],
+      properties: {
+        _id: {
+          bsonType: 'objectId'
+        },
+        cc: {
+          bsonType: 'int',
+          description: 'La cedula es obligatorio y tiene que se de tipo numerico'
+        },
+        nombre: {
+          bsonType: 'string',
+          description: 'El nombre es obligatorio y solo recibe letras',
+          pattern: '^[a-zA-Z ]+$'
+        },
+        rol: {
+          bsonType: 'array',
+          description: 'El rol es obligatorio',
+          items: {
+            bsonType: 'int'
+          }
+        },
+        permisos: {
+          bsonType: 'object',
+          description: 'Ingrese los permisos',
+          properties: {
+            '/paciente': {
+              bsonType: 'array',
+              items: {
+                bsonType: 'string',
+                description: 'Ingrese la version autorizada'
+              }
+            },
+            '/admin': {
+              bsonType: 'array',
+              items: {
+                bsonType: 'string',
+                description: 'Ingrese la version autorizada'
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+})
+
+use('db_citas_campus')
+db.createCollection('rol', {
+  validator: {
+    $jsonSchema: {
+      bsonType: 'object',
+      required: ['id', 'nombre'],
+      properties: {
+        _id: {
+          bsonType: 'objectId'
+        },
+        id: {
+          bsonType: 'int',
+          description: 'es obligatorio y de tipo int'
+        },
+        nombre: {
+          bsonType: 'string',
+          description: '{"status": "402", "message": "El nombre_rol es obligatorio y solo recibe letras"}',
+          pattern: '^[a-zA-Z ]+$'
+        }
+      }
+    }
+  }
+})
+
+use('db_citas_campus')
+db.personal.insertMany([
+  {
+    cc: 123456789,
+    nombre: 'Marcos',
+    rol: [1],
+    permisos: {
+      '/admin': ['*']
+    }
+  },
+  {
+    cc: 456789123,
+    nombre: 'Jhon',
+    rol: [2],
+    permisos: {
+      '/paciente': ['1.0.0', '3.5.0']
+    }
+  }
+])
+
+use('db_citas_campus')
+db.createCollection('autoincrement')
+db.autoincrement.insertOne(
+  { _id: 'rolId', sequence_value: 0 }
+)
+
+use('db_citas_campus')
+function increment (coleccion) {
+  const sequenceDocument = db.autoincrement.findOneAndUpdate(
+    { _id: `${coleccion}Id` },
+    { $inc: { sequence_value: 1 } },
+    { returnDocument: 'after' }
+  )
+  return sequenceDocument.sequence_value
+}
+
+use('db_citas_campus')
+db.rol.insertMany([
+  {
+    id: Number(increment('rol')),
+    nombre: 'admin'
+  },
+  {
+    id: Number(increment('rol')),
+    nombre: 'paciente'
+  }
+])
+
+use('db_citas_campus')
 db.tipo_documento.insertMany([{
   tipdoc_id: 1,
   tipdoc_nombre: 'Cédula de Ciudadanía',
