@@ -10,6 +10,5 @@ appLogin.use(crearToken)
 
 // Headers 'Accept-Version: 1.0.0'
 appLogin.post('/', version({
-  '1.0.0': Login.loginV1,
-  '1.1.0': Login.loginV2
+  '1.0.0': Login.loginV1
 }))

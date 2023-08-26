@@ -10,9 +10,9 @@ const version = routesVersioning()
 // Bearer
 appCitas.use(passportHelper.authenticate('bearer', { session: false }))
 
-appCitas.get('/getCitas', version({ '3.5.0': Citas.getCitas, '1.0.0': Citas.citaGenero }))// APROBADA
-appCitas.get('/proximaCita', Citas.proximaCita)// APROBADA
-appCitas.get('/citasFechaEspecifica', Citas.citaFechaEspecifica)// APROBADA
-appCitas.get('/citasFechaMedicoEspecifico/:nroMatricula', Citas.citasFechaMedicoEspecifico)
-appCitas.get('/citasPorGenero/:genero', Citas.citaGenero)// APROBADA - AGREGAR GRUOP
-appCitas.get('/citasRechazadas', Citas.citasRechazadas)// APROBADA
+appCitas.get('/getCitas', version({ '1.0.0': Citas.getCitas }))// APROBADA
+appCitas.get('/proximaCita', version({ '1.0.0': Citas.proximaCita }))// APROBADA
+appCitas.get('/citasFechaEspecifica', version({ '1.0.0': Citas.citaFechaEspecifica }))// APROBADA
+appCitas.get('/citasFechaMedicoEspecifico/:nroMatricula', version({ '1.0.0': Citas.citasFechaMedicoEspecifico }))
+appCitas.get('/citasPorGenero/:genero', version({ '1.0.0': Citas.citaGenero }))// APROBADA - AGREGAR GRUOP
+appCitas.get('/citasRechazadas', version({ '1.0.0': Citas.citasRechazadas }))// APROBADA
