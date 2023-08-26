@@ -28,8 +28,6 @@ export class Medico {
     } catch (error) {
       console.error('Error al traer los medicos con una especialidad especifica')
       console.error(error.message)
-    } finally {
-      await closeConnection()
     }
   }
 

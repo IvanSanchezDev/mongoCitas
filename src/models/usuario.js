@@ -52,8 +52,6 @@ export class Usuario {
     } catch (error) {
       console.error(error.message)
       throw Error('Error al encontrar todos los pacientes que tienen citas con un médico específico')
-    } finally {
-      await closeConnection()
     }
   }
 }

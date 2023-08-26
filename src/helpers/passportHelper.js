@@ -5,10 +5,11 @@ import { verifyToken } from './jwt.js'
 passport.use(new BearerStrategy(
 
   { passReqToCallback: true },
-  function (req, token, done) {
+  async function (req, token, done) {
     try {
-      const personal = verifyToken(req, token)
-      if (!personal) return done(null, false)
+      const personal = await verifyToken(req, token)
+      if (Object.keys(personal).length === 0) return done(null, false)
+      // if (!personal) return done(null, false)
 
       return done(null, personal)
     } catch (error) {
